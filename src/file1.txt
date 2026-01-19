@@ -1,0 +1,22 @@
+Defination => tanstack query is (formely know as react query) is a powerful asynchronus state management library for Typescript and javascrpt. 
+It is widely considered the standard solution for fetching , caching, synchronizing,  and updating server state in react appplication 
+
+In simple terms : It replace the messy useState, useEffect , fetch boilerplate with a single ,powerful hook.
+
+why use it ?
+
+1) auto-caching : It caches data automatically if you navigate away and come back the data is there instantly.
+
+2) Automatic Background refecting : It keeps data fresh by refetching in the background when the window is refocused or the network reconnects.
+
+3) Deduplication : If multiple components ask for the same data , It only fires one network request.
+
+4) Loading/Error state : It gives you isLoading, isError and Data flags out of the box.
+
+to install it :
+npm install @tanstack/react-query @tanstack/react-query-devtools
+
+This is a great question. When you copy-paste code, it is crucial to understand why it is written that way, especially in Next.js where mistakes can lead to performance issues.
+
+Here is the breakdown of each part and the reason behind this specific setup.
+

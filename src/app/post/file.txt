@@ -1,0 +1,23 @@
+How to Fetch Data (The "Hybrid" Way)
+
+In Next.js, you often want to prefetch data on the server (for SEO and speed) and then hydrate it on the client (so React Query takes over for updates).
+
+prefetch = phele se he data/resourse ko load kar lena , taak baad me wait na karna pade.
+
+Real-life analogy
+
+Socho aap restaurant me ho:
+
+-> Aapne menu dekha
+
+-> Waiter samajh gaya ki aap pizza order karoge
+
+-> Wo kitchen ko pehle hi bol deta hai
+
+-> Jab aap order dete ho → pizza jaldi aa jata hai
+
+Ye hi prefetching hai.
+
+hydrate / hydartion = hydration is the process where javascript attaches intractivity to HTML that was alread rendered on the server.
+
+in short :  server se aaya hua static HTML -> javascript ke through interactive UI ban jata hai
