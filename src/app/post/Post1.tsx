@@ -15,7 +15,8 @@ import axios from "axios";
 
     const {data,isLoading, isError} = useQuery({
       queryKey : ['posts'],
-      queryFn : getPost
+      queryFn : getPost,
+      gcTime : 1000 
     })
 
     if(isLoading) return <p> Loading...</p>

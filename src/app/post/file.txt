@@ -21,3 +21,101 @@ Ye hi prefetching hai.
 hydrate / hydartion = hydration is the process where javascript attaches intractivity to HTML that was alread rendered on the server.
 
 in short :  server se aaya hua static HTML -> javascript ke through interactive UI ban jata hai
+
+
+
+-> useQuery basics
+def: the useQuery hook is used for reading data from the server. It sunccribe a component to the data located in the cache.
+
+-> query Keys (very important)
+The Query Key is how TanStack Query manages dependencies. If the key changes, the library considers it a new query and will fetch new data automatically.
+
+Array-Based Keys
+All keys in TanStack Query v4/v5 are arrays. Even if it's a single string, it is treated as ['todos'].
+
+Dynamic Parameters
+If your query depends on a variable (like an ID or a filter), that variable must be in the key.
+
+JavaScript
+
+// ❌ WRONG: The cache won't update when filters change
+useQuery({
+  queryKey: ['todos'],
+  queryFn: () => fetchTodos(filters)
+})
+
+// ✅ CORRECT: Changing 'filters' automatically triggers a refetch
+useQuery({
+  queryKey: ['todos', filters], 
+  queryFn: () => fetchTodos(filters)
+})
+
+
+
+=> Key Hierarchy & Best Practices
+
+Design your keys like a file path or a REST API URL. This structure allows you to invalidate (refresh) groups of data easily later.
+Scope                            Example                                             KeyDescription
+
+Generic                          ['todos']                                           All todo lists.
+
+List                             ['todos', 'list']                                  Specifically list data.
+
+Filtered List                    ['todos', 'list', { status: 'done' }]              List filtered by status.
+
+Detail                           ['todos', 'detail', 1]                             Specific item with ID 1.
+
+
+=> Query options
+
+
+You can tune the behavior of useQuery using the third argument (options object).
+
+Control Options
+enabled (boolean):
+
+-> Acts as a "pause" button.
+
+-> If false, the query will not automatically run.
+
+-> Useful for dependent queries (e.g., "Wait until I have the userId before fetching their posts").
+
+JavaScript
+
+useQuery({
+  queryKey: ['posts', userId],
+  queryFn: getPosts,
+  enabled: !!userId // Only run if userId exists
+})
+-> retry (boolean | number):
+
+-> Defaults to 3. If a request fails, it will try 3 more times before showing the error state.
+
+-> retryDelay: Time to wait between retries (uses exponential backoff by default).
+
+=> Caching & Freshness (The "Confusing" Part)
+
+-> staleTime (default: 0):
+
+"How long is this data fresh?"
+
+While data is fresh, the query will not refetch from the API, even if you mount the component again.
+
+If you set this to 5 * 60 * 1000 (5 mins), the data will stay "fresh" for 5 mins.
+
+-> gcTime (formerly cacheTime) (default: 5 mins):
+
+"How long do we keep inactive data in memory?"
+
+If the user leaves the page (unmounts component), the data enters "cold storage."
+
+If the user comes back within gcTime, the data is still there (instant load). If they come back after, it is garbage collected (deleted).
+
+-> Refetch Triggers
+These control when the library tries to update "stale" data.
+
+-> refetchOnMount: Refetch when the component first appears? (Default: true)
+
+-> refetchOnWindowFocus: Refetch when the user tabs back to the app? (Default: true)
+
+-> refetchInterval: Refetch automatically every X milliseconds? (Polling).
